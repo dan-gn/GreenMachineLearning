@@ -6,7 +6,7 @@ This repository contains the code and documentation for the Green Machine Learni
 
 ## Contributors
 
-- [Agustina Sofia Skiarski](https://github.com/username1)
+- [Agustina Sofia Skiarski](https://github.com/Agustina-Skiarski)
 - [Daniel García Núñez](https://github.com/dan-gn)
 - [Samara O S Santos](https://github.com/sams-santos)
 
