@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 
 # Metrics libraries
 import time
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, log_loss
 import types
 from sklearn import metrics 
 
@@ -107,12 +107,13 @@ class Experiment:
             # Store results
             measures = {
                 'accuracy': accuracy_score(y_test, y_pred),
-                'training_time': training_time,
-                'prediciton_time': prediction_time,
-                'model_size': sklearn_sizeof(self.model),
+                'log_loss': log_loss(y_test, y_pred),
                 'fpr': fpr,
                 'tpr': tpr,
                 'auc': auc
+                'training_time': training_time,
+                'prediciton_time': prediction_time,
+                'model_size': sklearn_sizeof(self.model),
             }
             self.results.append(measures)
 
