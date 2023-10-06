@@ -110,10 +110,10 @@ class Experiment:
                 'log_loss': log_loss(y_test, y_pred),
                 'fpr': fpr,
                 'tpr': tpr,
-                'auc': auc
+                'auc': auc,
                 'training_time': training_time,
                 'prediciton_time': prediction_time,
-                'model_size': sklearn_sizeof(self.model),
+                'model_size': sklearn_sizeof(self.model)
             }
             self.results.append(measures)
 
