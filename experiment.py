@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 import time
 from sklearn.metrics import accuracy_score
 import types
+from sklearn import metrics 
 
 # Machine Learning models
 from sklearn.linear_model import LogisticRegression
@@ -98,13 +99,20 @@ class Experiment:
             start = time.time()
             y_pred = self.model.predict(X_test_scaled)
             prediction_time = time.time() - start       # SHOULD WE NORMALIZE THIS BY UNIT???
+            #ROC curve parameters: false positive rate (fpr) and true positive rate (tpr)
+            fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred)
+            #AUC
+            auc = metrics.auc(fpr, tpr)
 
             # Store results
             measures = {
                 'accuracy': accuracy_score(y_test, y_pred),
                 'training_time': training_time,
                 'prediciton_time': prediction_time,
-                'model_size': sklearn_sizeof(self.model)
+                'model_size': sklearn_sizeof(self.model),
+                'fpr': fpr,
+                'tpr': tpr,
+                'auc': auc
             }
             self.results.append(measures)
 
