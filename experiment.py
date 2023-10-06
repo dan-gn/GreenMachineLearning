@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler
 # Metrics libraries
 import time
 from sklearn.metrics import accuracy_score
+import types
 
 class Experiment:
 
@@ -46,7 +47,8 @@ class Experiment:
             # Store results
             measures = {
                 'accuracy': accuracy_score(y_test, y_pred),
-                'training_time': training_time
+                'training_time': training_time,
+                'model_size': sklearn_sizeof(self.model)
             }
             self.results.append(measures)
 
@@ -54,3 +56,34 @@ class Experiment:
     
     def get_mesaure(self, measure):
         return [x[measure] for x in self.results]
+
+    
+
+def is_instance_attr(obj, name):
+  if not hasattr(obj, name):
+    return False
+  if name.startswith("__") and name.endswith("__"):
+    return False
+  v = getattr(obj, name)
+  if isinstance(v, (types.BuiltinFunctionType, types.BuiltinMethodType, types.FunctionType, types.MethodType)):
+    return False
+  # See https://stackoverflow.com/a/17735709/
+  attr_type = getattr(type(obj), name, None)
+  if isinstance(attr_type, property):
+    return False
+  return True
+
+def get_instance_attrs(obj):
+  names = dir(obj)
+  names = [name for name in names if is_instance_attr(obj, name)]
+  return names
+
+def sklearn_sizeof(obj):
+  sum = 0
+  names = get_instance_attrs(obj)
+  for name in names:
+    v = getattr(obj, name)
+    v_type = type(v)
+    v_sizeof = v.__sizeof__()
+    sum += v_sizeof
+  return sum
