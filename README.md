@@ -24,20 +24,20 @@ The Green Machine Learning PhD project aims to explore the environmental impact 
 
 ## Datasets
 
-### Dataset 1: [Pumpkin Seeds Dataset]
+### Dataset 1: Pumpkin Seeds Dataset
 - Source: [Source of the Dataset](https://www.kaggle.com/datasets/muratkokludataset/pumpkin-seeds-dataset/data)
 
-### Dataset 2: [Breast Cancer Dataset]
+### Dataset 2: Breast Cancer Dataset
 - Source: [Source of the Dataset](https://www.kaggle.com/datasets/yasserh/breast-cancer-dataset/data)
 
-### Dataset 3: [temps.csv]
+### Dataset 3: temps.csv
 - Source: [Source of the Dataset](https://www.kaggle.com/datasets/ns0720/tempscsv/data)
 
 ## Models
 
 The following models have been selected for evaluation:
 
-1. Deep Neural Network
+1. DeepNeuralNetwork
 2. LogisticRegression
 3. SVC
 4. RandomForestClassifier
