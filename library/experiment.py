@@ -12,6 +12,7 @@ from sklearn import metrics
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier        
+from kdnn import KDNN
 
 # Utilities
 def is_instance_attr(obj, name):
@@ -73,6 +74,8 @@ class Experiment:
            return RandomForestClassifier(random_state=0)
         elif self.model_name == 'GradientBoostingClassifier':
            return GradientBoostingClassifier(random_state=0)
+        elif self.model_name == 'DeepNeuralNetwork':
+           return KDNN.kdnn_model()
         else:
            print('ML model not supported')
     
