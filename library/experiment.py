@@ -13,6 +13,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier        
 from kdnn import KDNN
+import numpy as np
 
 # Utilities
 def is_instance_attr(obj, name):
@@ -109,7 +110,7 @@ class Experiment:
 
             # Store results
             measures = {
-                'accuracy': accuracy_score(y_test, y_pred),
+                'accuracy': accuracy_score(y_test, np.round(y_pred)),
                 'log_loss': log_loss(y_test, y_pred),
                 'fpr': fpr,
                 'tpr': tpr,
