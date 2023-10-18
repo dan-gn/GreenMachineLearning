@@ -82,7 +82,7 @@ class Experiment:
       return X_train_pp, y_train_pp
 
    def do_pca(self, X_train: np.ndarray, X_test: np.ndarray):
-      pca = PCA(n_components=2)
+      pca = PCA(0.95, random_state=self.random_state)
       X_train_pp = pca.fit_transform(X_train)
       X_test_pp = pca.transform(X_test)
       return X_train_pp, X_test_pp
@@ -128,6 +128,9 @@ class Experiment:
          X_train, X_test = self.X[train_index], self.X[test_index]
          y_train, y_test = self.y[train_index], self.y[test_index]
 
+         y_train = np.squeeze(y_train, axis=1)
+         y_test = np.squeeze(y_test, axis=1)
+
          # Preprocess data
          start = time.time()
          X_train_pp, X_test_pp, y_train_pp = self.preprocess_data(X_train, X_test, y_train)
@@ -141,13 +144,19 @@ class Experiment:
          training_time = time.time() - start
 
          # Evaluate model
-         start = time.time()
          y_pred = self.model.predict(X_test_pp)
-         prediction_time = time.time() - start       # SHOULD WE NORMALIZE THIS BY UNIT???
+
          #ROC curve parameters: false positive rate (fpr) and true positive rate (tpr)
          fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred)
          #AUC
          auc = metrics.auc(fpr, tpr)
+
+         # Prediction time (1000 samples)
+         while X_test_pp.shape[0] < 1000:
+            X_test_pp = np.concatenate([X_test_pp, X_test_pp])
+         start = time.time()
+         _ = self.model.predict(X_test_pp[:1000, :])
+         prediction_time = time.time() - start       
 
          # Store results
          measures = {
@@ -159,7 +168,9 @@ class Experiment:
                'preprocess_time': preprocess_time,
                'training_time': training_time,
                'prediciton_time': prediction_time,
-               'model_size': sklearn_sizeof(self.model)
+               'model_size': sklearn_sizeof(self.model),
+               'n_samples': X_train_pp.shape[0],
+               'n_features': X_train_pp.shape[1]
          }
          self.results.append(measures)
 
