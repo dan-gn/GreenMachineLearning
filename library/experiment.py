@@ -167,7 +167,7 @@ class Experiment:
                'auc': auc,
                'preprocess_time': preprocess_time,
                'training_time': training_time,
-               'prediciton_time': prediction_time,
+               'prediction_time': prediction_time,
                'model_size': sklearn_sizeof(self.model),
                'n_samples': X_train_pp.shape[0],
                'n_features': X_train_pp.shape[1]
@@ -178,5 +178,6 @@ class Experiment:
    
    def get_mesaure(self, measure):
       return [x[measure] for x in self.results]
+   
 
    
