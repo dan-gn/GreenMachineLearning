@@ -19,7 +19,6 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from kdnn import KDNN
 
 # Code Carbon
-from codecarbon import EmissionsTracker
 from codecarbon import OfflineEmissionsTracker
 
 # Utilities
@@ -55,7 +54,7 @@ def sklearn_sizeof(obj):
 # Constants
 N_FOLDS = 10
 N_REPEATS = 2 # CHANGE THIS TO 3 FOR FINAL EXPERIMENTS
-TRACKER = OfflineEmissionsTracker(country_iso_code="IRL")
+TRACKER = OfflineEmissionsTracker(project_name="green_ML", country_iso_code="IRL", save_to_file = False, country_2letter_iso_code = "IE")
 
 """
 Experiment
@@ -136,7 +135,7 @@ class Experiment:
          y_train = np.squeeze(y_train, axis=1)
          y_test = np.squeeze(y_test, axis=1)
 
-         TRACKER.start()
+         TRACKER.start_task("Preprocess data")
 
          # Preprocess data
          start = time.time()
@@ -147,9 +146,9 @@ class Experiment:
          while X_test_pp2.shape[0] < 1000:
             X_test_pp2 = np.concatenate([X_test_pp2, X_test_pp])
 
-         TRACKER.stop()
+         preprocess_tracker = TRACKER.stop_task()
 
-         TRACKER.start()
+         TRACKER.start_task("Train model")
 
          # Train model
          self.model = self.new_model()
@@ -166,6 +165,7 @@ class Experiment:
             _ = self.model.predict(X_test_pp2[:1000, :], verbose=False)
             prediction_time = time.time() - start       
          else:
+            # Train model
             start = time.time()
             self.model.fit(X_train_pp, y_train_pp)
             training_time = time.time() - start
@@ -176,7 +176,7 @@ class Experiment:
             _ = self.model.predict(X_test_pp2[:1000, :])
             prediction_time = time.time() - start
 
-         TRACKER.stop()     
+         training_tracker = TRACKER.stop_task() 
 
          #ROC curve parameters: false positive rate (fpr) and true positive rate (tpr)
          fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred)
