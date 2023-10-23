@@ -18,6 +18,10 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier        
 from kdnn import KDNN
 
+# Code Carbon
+from codecarbon import EmissionsTracker
+from codecarbon import OfflineEmissionsTracker
+
 # Utilities
 def is_instance_attr(obj, name):
    if not hasattr(obj, name):
@@ -51,6 +55,7 @@ def sklearn_sizeof(obj):
 # Constants
 N_FOLDS = 10
 N_REPEATS = 2 # CHANGE THIS TO 3 FOR FINAL EXPERIMENTS
+TRACKER = OfflineEmissionsTracker(country_iso_code="IRL")
 
 """
 Experiment
@@ -131,6 +136,8 @@ class Experiment:
          y_train = np.squeeze(y_train, axis=1)
          y_test = np.squeeze(y_test, axis=1)
 
+         TRACKER.start()
+
          # Preprocess data
          start = time.time()
          X_train_pp, X_test_pp, y_train_pp = self.preprocess_data(X_train, X_test, y_train)
@@ -139,6 +146,10 @@ class Experiment:
          X_test_pp2 = np.copy(X_test_pp)
          while X_test_pp2.shape[0] < 1000:
             X_test_pp2 = np.concatenate([X_test_pp2, X_test_pp])
+
+         TRACKER.stop()
+
+         TRACKER.start()
 
          # Train model
          self.model = self.new_model()
@@ -163,7 +174,9 @@ class Experiment:
             # Prediction time (1000 samples)
             start = time.time()
             _ = self.model.predict(X_test_pp2[:1000, :])
-            prediction_time = time.time() - start       
+            prediction_time = time.time() - start
+
+         TRACKER.stop()     
 
          #ROC curve parameters: false positive rate (fpr) and true positive rate (tpr)
          fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred)
