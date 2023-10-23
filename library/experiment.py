@@ -136,27 +136,39 @@ class Experiment:
          X_train_pp, X_test_pp, y_train_pp = self.preprocess_data(X_train, X_test, y_train)
          preprocess_time = time.time() - start
 
-         self.model = self.new_model()
+         X_test_pp2 = np.copy(X_test_pp)
+         while X_test_pp2.shape[0] < 1000:
+            X_test_pp2 = np.concatenate([X_test_pp2, X_test_pp])
 
          # Train model
-         start = time.time()
-         self.model.fit(X_train_pp, y_train_pp)
-         training_time = time.time() - start
+         self.model = self.new_model()
 
-         # Evaluate model
-         y_pred = self.model.predict(X_test_pp)
+         if self.model_name == 'DeepNeuralNetwork': # Separeted to avoid printing training information
+            # Train model
+            start = time.time()
+            self.model.fit(X_train_pp, y_train_pp, verbose=False)
+            training_time = time.time() - start
+            # Evaluate model
+            y_pred = self.model.predict(X_test_pp, verbose=False)
+            # Prediction time (1000 samples)
+            start = time.time()
+            _ = self.model.predict(X_test_pp2[:1000, :], verbose=False)
+            prediction_time = time.time() - start       
+         else:
+            start = time.time()
+            self.model.fit(X_train_pp, y_train_pp)
+            training_time = time.time() - start
+            # Evaluate model
+            y_pred = self.model.predict(X_test_pp)
+            # Prediction time (1000 samples)
+            start = time.time()
+            _ = self.model.predict(X_test_pp2[:1000, :])
+            prediction_time = time.time() - start       
 
          #ROC curve parameters: false positive rate (fpr) and true positive rate (tpr)
          fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred)
          #AUC
          auc = metrics.auc(fpr, tpr)
-
-         # Prediction time (1000 samples)
-         while X_test_pp.shape[0] < 1000:
-            X_test_pp = np.concatenate([X_test_pp, X_test_pp])
-         start = time.time()
-         _ = self.model.predict(X_test_pp[:1000, :])
-         prediction_time = time.time() - start       
 
          # Store results
          measures = {
@@ -167,7 +179,7 @@ class Experiment:
                'auc': auc,
                'preprocess_time': preprocess_time,
                'training_time': training_time,
-               'prediction_time': prediction_time,
+               'prediciton_time': prediction_time,
                'model_size': sklearn_sizeof(self.model),
                'n_samples': X_train_pp.shape[0],
                'n_features': X_train_pp.shape[1]
@@ -178,6 +190,5 @@ class Experiment:
    
    def get_mesaure(self, measure):
       return [x[measure] for x in self.results]
-   
 
    
