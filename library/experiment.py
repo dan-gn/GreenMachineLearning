@@ -135,7 +135,7 @@ class Experiment:
          y_train = np.squeeze(y_train, axis=1)
          y_test = np.squeeze(y_test, axis=1)
 
-         TRACKER.start_task("Preprocess data")
+         TRACKER.start()
 
          # Preprocess data
          start = time.time()
@@ -146,9 +146,7 @@ class Experiment:
          while X_test_pp2.shape[0] < 1000:
             X_test_pp2 = np.concatenate([X_test_pp2, X_test_pp])
 
-         preprocess_tracker = TRACKER.stop_task()
-
-         TRACKER.start_task("Train model")
+         TRACKER.stop()
 
          # Train model
          self.model = self.new_model()
@@ -175,8 +173,6 @@ class Experiment:
             start = time.time()
             _ = self.model.predict(X_test_pp2[:1000, :])
             prediction_time = time.time() - start
-
-         training_tracker = TRACKER.stop_task() 
 
          #ROC curve parameters: false positive rate (fpr) and true positive rate (tpr)
          fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred)
