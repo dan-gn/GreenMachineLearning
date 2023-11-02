@@ -154,25 +154,33 @@ class Experiment:
          if self.model_name == 'DeepNeuralNetwork': # Separeted to avoid printing training information
             # Train model
             start = time.time()
+            track = TRACKER.start()
             self.model.fit(X_train_pp, y_train_pp, verbose=False)
             training_time = time.time() - start
+            emissions_train = TRACKER.stop()
             # Evaluate model
             y_pred = self.model.predict(X_test_pp, verbose=False)
             # Prediction time (1000 samples)
             start = time.time()
+            track = TRACKER.start()
             _ = self.model.predict(X_test_pp2[:1000, :], verbose=False)
-            prediction_time = time.time() - start       
+            prediction_time = time.time() - start
+            emissions_pred = TRACKER.stop()    
          else:
             # Train model
             start = time.time()
+            track = TRACKER.start()
             self.model.fit(X_train_pp, y_train_pp)
             training_time = time.time() - start
+            emissions_train = TRACKER.stop()
             # Evaluate model
             y_pred = self.model.predict(X_test_pp)
             # Prediction time (1000 samples)
             start = time.time()
+            track = TRACKER.start()
             _ = self.model.predict(X_test_pp2[:1000, :])
             prediction_time = time.time() - start
+            emissions_pred = TRACKER.stop()  
 
          #ROC curve parameters: false positive rate (fpr) and true positive rate (tpr)
          fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred)
@@ -188,10 +196,12 @@ class Experiment:
                'auc': auc,
                'preprocess_time': preprocess_time,
                'training_time': training_time,
-               'prediciton_time': prediction_time,
+               'prediction_time': prediction_time,
                'model_size': sklearn_sizeof(self.model),
                'n_samples': X_train_pp.shape[0],
-               'n_features': X_train_pp.shape[1]
+               'n_features': X_train_pp.shape[1],
+               'emissions_train': emissions_train,
+               'emissions_pred': emissions_pred,
          }
          self.results.append(measures)
 
