@@ -127,7 +127,6 @@ class Experiment:
       # Repeated K-Fold Cross Validation
       rkf = RepeatedStratifiedKFold(n_splits=self.n_folds, n_repeats=self.n_repeats, random_state=self.random_state)
       for i, (train_index, test_index) in enumerate(rkf.split(self.X, self.y)):
-         print(i)
          # Split data
          X_train, X_test = self.X[train_index], self.X[test_index]
          y_train, y_test = self.y[train_index], self.y[test_index]
