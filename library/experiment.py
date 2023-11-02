@@ -127,7 +127,7 @@ class Experiment:
       # Repeated K-Fold Cross Validation
       rkf = RepeatedStratifiedKFold(n_splits=self.n_folds, n_repeats=self.n_repeats, random_state=self.random_state)
       for i, (train_index, test_index) in enumerate(rkf.split(self.X, self.y)):
-
+         print(i)
          # Split data
          X_train, X_test = self.X[train_index], self.X[test_index]
          y_train, y_test = self.y[train_index], self.y[test_index]
@@ -146,7 +146,7 @@ class Experiment:
          while X_test_pp2.shape[0] < 1000:
             X_test_pp2 = np.concatenate([X_test_pp2, X_test_pp])
 
-         TRACKER.stop()
+         emissions_prep = TRACKER.stop()
 
          # Train model
          self.model = self.new_model()
@@ -200,6 +200,7 @@ class Experiment:
                'model_size': sklearn_sizeof(self.model),
                'n_samples': X_train_pp.shape[0],
                'n_features': X_train_pp.shape[1],
+               'emissions_prep': emissions_prep,
                'emissions_train': emissions_train,
                'emissions_pred': emissions_pred,
          }
@@ -209,5 +210,3 @@ class Experiment:
    
    def get_mesaure(self, measure):
       return [x[measure] for x in self.results]
-
-   
