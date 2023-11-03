@@ -19,7 +19,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from kdnn import KDNN
 
 # Code Carbon
-from codecarbon import OfflineEmissionsTracker
+from codecarbon import OfflineEmissionsTracker, EmissionsTracker
 
 # Utilities
 def is_instance_attr(obj, name):
@@ -55,6 +55,7 @@ def sklearn_sizeof(obj):
 N_FOLDS = 10
 N_REPEATS = 2 # CHANGE THIS TO 3 FOR FINAL EXPERIMENTS
 TRACKER = OfflineEmissionsTracker(project_name="green_ML", country_iso_code="IRL", save_to_file = False, country_2letter_iso_code = "IE")
+# TRACKER = EmissionsTracker(project_name = "green_ml", save_to_file = False, measure_power_secs=10)
 
 """
 Experiment
@@ -124,6 +125,7 @@ class Experiment:
          print('ML model not supported')
    
    def run(self):
+      TRACKER.start()
       # Repeated K-Fold Cross Validation
       rkf = RepeatedStratifiedKFold(n_splits=self.n_folds, n_repeats=self.n_repeats, random_state=self.random_state)
       for i, (train_index, test_index) in enumerate(rkf.split(self.X, self.y)):
@@ -134,18 +136,19 @@ class Experiment:
          y_train = np.squeeze(y_train, axis=1)
          y_test = np.squeeze(y_test, axis=1)
 
-         TRACKER.start()
 
          # Preprocess data
          start = time.time()
+         # track = TRACKER.start()
+         track_start = TRACKER.stop()
          X_train_pp, X_test_pp, y_train_pp = self.preprocess_data(X_train, X_test, y_train)
          preprocess_time = time.time() - start
+         emissions_prep = TRACKER.stop() - track_start
 
          X_test_pp2 = np.copy(X_test_pp)
          while X_test_pp2.shape[0] < 1000:
             X_test_pp2 = np.concatenate([X_test_pp2, X_test_pp])
 
-         emissions_prep = TRACKER.stop()
 
          # Train model
          self.model = self.new_model()
@@ -153,33 +156,37 @@ class Experiment:
          if self.model_name == 'DeepNeuralNetwork': # Separeted to avoid printing training information
             # Train model
             start = time.time()
-            track = TRACKER.start()
+            # track = TRACKER.start()
+            track_start = TRACKER.stop()
             self.model.fit(X_train_pp, y_train_pp, verbose=False)
             training_time = time.time() - start
-            emissions_train = TRACKER.stop()
+            emissions_train = TRACKER.stop() - track_start
             # Evaluate model
             y_pred = self.model.predict(X_test_pp, verbose=False)
             # Prediction time (1000 samples)
             start = time.time()
-            track = TRACKER.start()
+            # track = TRACKER.start()
+            track_start = TRACKER.stop()
             _ = self.model.predict(X_test_pp2[:1000, :], verbose=False)
             prediction_time = time.time() - start
-            emissions_pred = TRACKER.stop()    
+            emissions_pred = TRACKER.stop() - track_start
          else:
             # Train model
             start = time.time()
-            track = TRACKER.start()
+            # track = TRACKER.start()
+            track_start = TRACKER.stop()
             self.model.fit(X_train_pp, y_train_pp)
             training_time = time.time() - start
-            emissions_train = TRACKER.stop()
+            emissions_train = TRACKER.stop() - track_start
             # Evaluate model
             y_pred = self.model.predict(X_test_pp)
             # Prediction time (1000 samples)
             start = time.time()
-            track = TRACKER.start()
+            # track = TRACKER.start()
+            track_start = TRACKER.stop()
             _ = self.model.predict(X_test_pp2[:1000, :])
             prediction_time = time.time() - start
-            emissions_pred = TRACKER.stop()  
+            emissions_pred = TRACKER.stop() - track_start
 
          #ROC curve parameters: false positive rate (fpr) and true positive rate (tpr)
          fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred)
@@ -204,6 +211,8 @@ class Experiment:
                'emissions_pred': emissions_pred,
          }
          self.results.append(measures)
+
+         del self.model
 
       return self.results
    
