@@ -16,7 +16,7 @@ from sklearn import metrics
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier        
-from kdnn import KDNN
+from kdnn import KDNN_v5
 
 # Code Carbon
 from codecarbon import OfflineEmissionsTracker, EmissionsTracker
@@ -120,7 +120,7 @@ class Experiment:
       elif self.model_name == 'GradientBoostingClassifier':
          return GradientBoostingClassifier(random_state=self.random_state)
       elif self.model_name == 'DeepNeuralNetwork':
-         return KDNN.kdnn_model()
+         return KDNN_v5.kdnn_model()
       else:
          print('ML model not supported')
    
