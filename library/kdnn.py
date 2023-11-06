@@ -1,6 +1,6 @@
 from keras import optimizers
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, SimpleRNN
 import tensorflow as tf
 
 class KDNN():
@@ -8,6 +8,7 @@ class KDNN():
     def kdnn_model():
         model = Sequential()
         model.add(Dense(64, activation='relu'))
+        # model.add(SimpleRNN(64, activation="relu"))
         # model.add(Dense(1536, activation='relu'))
         # model.add(Dense(64, activation='relu')) 
         # model.add(Dense(64, activation='relu')) 
