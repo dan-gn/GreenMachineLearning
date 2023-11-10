@@ -53,7 +53,7 @@ def sklearn_sizeof(obj):
 
 # Constants
 N_FOLDS = 10
-N_REPEATS = 2 # CHANGE THIS TO 3 FOR FINAL EXPERIMENTS
+N_REPEATS = 4 # CHANGE THIS TO 3 FOR FINAL EXPERIMENTS
 TRACKER = OfflineEmissionsTracker(project_name="green_ML", country_iso_code="IRL", save_to_file = False, country_2letter_iso_code = "IE")
 # TRACKER = EmissionsTracker(project_name = "green_ml", save_to_file = False, measure_power_secs=10)
 
@@ -179,7 +179,7 @@ class Experiment:
             training_time = time.time() - start
             emissions_train = TRACKER.stop() - track_start
             # Evaluate model
-            y_pred = self.model.predict(X_test_pp)
+            y_pred = self.model.predict_proba(X_test_pp)[:,1]
             # Prediction time (1000 samples)
             start = time.time()
             # track = TRACKER.start()
