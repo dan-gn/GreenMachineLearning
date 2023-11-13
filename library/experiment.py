@@ -16,7 +16,7 @@ from sklearn import metrics
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier        
-from kdnn import KDNN_v5
+from kdnn import KDNN_v5, KDNN_v6, KDNN_v7
 
 # Code Carbon
 from codecarbon import OfflineEmissionsTracker, EmissionsTracker
@@ -110,17 +110,19 @@ class Experiment:
       X_train_scaled, X_test_scaled = self.do_data_scaling(X_train_pp, X_test_pp)
       return X_train_scaled, X_test_scaled, y_train_pp
     
-   def new_model(self):
+   def new_model(self, input_shape=None):
       if self.model_name == 'LogisticRegression':
          return LogisticRegression(random_state=self.random_state)
       if self.model_name == 'SVC':
-         return SVC(random_state=self.random_state)
+         return SVC(random_state=self.random_state, probability=True)
       elif self.model_name == 'RandomForestClassifier':
          return RandomForestClassifier(random_state=self.random_state)
       elif self.model_name == 'GradientBoostingClassifier':
          return GradientBoostingClassifier(random_state=self.random_state)
-      elif self.model_name == 'DeepNeuralNetwork':
-         return KDNN_v5.kdnn_model()
+      elif self.model_name == 'ResidualNeuralNetwork':
+         return KDNN_v6.kdnn_model(input_shape)
+      elif self.model_name == 'MultiLayerNeuralNetwork':
+         return KDNN_v7.kdnn_model()
       else:
          print('ML model not supported')
    
@@ -151,9 +153,9 @@ class Experiment:
 
 
          # Train model
-         self.model = self.new_model()
+         self.model = self.new_model((X_train_pp.shape[1]))
 
-         if self.model_name == 'DeepNeuralNetwork': # Separeted to avoid printing training information
+         if 'NeuralNetwork' in self.model_name: # Separeted to avoid printing training information
             # Train model
             start = time.time()
             # track = TRACKER.start()
@@ -170,6 +172,7 @@ class Experiment:
             _ = self.model.predict(X_test_pp2[:1000, :], verbose=False)
             prediction_time = time.time() - start
             emissions_pred = TRACKER.stop() - track_start
+            # print(self.model.summary())
          else:
             # Train model
             start = time.time()
