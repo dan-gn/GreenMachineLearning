@@ -9,14 +9,14 @@ from sklearn.decomposition import PCA
 
 # Metrics libraries
 import time
-from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import accuracy_score, log_loss, f1_score
 from sklearn import metrics 
 
 # Machine Learning models
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier        
-from kdnn import KDNN_v5, KDNN_v6, KDNN_v7
+from kdnn import KDNN_v5, KDNN_v6, KDNN_v8
 
 # Code Carbon
 from codecarbon import OfflineEmissionsTracker, EmissionsTracker
@@ -122,7 +122,7 @@ class Experiment:
       elif self.model_name == 'ResidualNeuralNetwork':
          return KDNN_v6.kdnn_model(input_shape)
       elif self.model_name == 'MultiLayerNeuralNetwork':
-         return KDNN_v7.kdnn_model()
+         return KDNN_v8.kdnn_model()
       else:
          print('ML model not supported')
    
@@ -199,6 +199,7 @@ class Experiment:
          # Store results
          measures = {
                'accuracy': accuracy_score(y_test, np.round(y_pred)),
+               'f1_score': f1_score(y_test, np.round(y_pred)),
                'log_loss': log_loss(y_test, y_pred),
                'fpr': fpr,
                'tpr': tpr,

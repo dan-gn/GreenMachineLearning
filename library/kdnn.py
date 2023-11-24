@@ -183,3 +183,16 @@ class KDNN_v7():
         opt = optimizers.Adam(learning_rate=0.03)
         model.compile(loss='binary_crossentropy', optimizer= opt, metrics=['accuracy'])
         return model
+    
+class KDNN_v8():
+ 
+    def kdnn_model():
+        model = Sequential()
+        model.add(Dense(128, activation='relu'))
+        model.add(Dense(512, activation='relu'))
+        model.add(Dense(512, activation='relu'))
+        model.add(Dense(128, activation='relu'))
+        model.add(Dense(1, activation='sigmoid'))
+        opt = optimizers.Adam()
+        model.compile(loss='binary_crossentropy', optimizer= opt, metrics=['accuracy'])
+        return model
