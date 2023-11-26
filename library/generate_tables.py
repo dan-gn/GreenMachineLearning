@@ -13,7 +13,7 @@ def get_experiment_name(ss_opt, fr_opt):
 		return 'Full'
 	
 # Datasets
-datasets = ['malware']
+datasets = ['aids', 'students', 'malware']
 
 # Machine Learning models
 models = ['LogisticRegression', 'SVC', 'RandomForestClassifier', 'GradientBoostingClassifier','ResidualNeuralNetwork', 'MultiLayerNeuralNetwork']
@@ -51,4 +51,7 @@ table = {dataset:{model:None for model in models} for dataset in datasets}
 for x in results:
 	table[x['dataset']][x['model']] = x['mean']
 
-print(table)
+df = pd.DataFrame.from_dict(table).transpose()
+print(df)
+
+df.to_csv('final_results/mean_results.csv')

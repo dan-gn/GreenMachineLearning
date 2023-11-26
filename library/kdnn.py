@@ -189,8 +189,9 @@ class KDNN_v8():
     def kdnn_model():
         model = Sequential()
         model.add(Dense(128, activation='relu'))
+        model.add(Dense(256, activation='relu'))
         model.add(Dense(512, activation='relu'))
-        model.add(Dense(512, activation='relu'))
+        model.add(Dense(256, activation='relu'))
         model.add(Dense(128, activation='relu'))
         model.add(Dense(1, activation='sigmoid'))
         opt = optimizers.Adam()
