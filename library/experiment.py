@@ -210,9 +210,9 @@ class Experiment:
                'model_size': sklearn_sizeof(self.model),
                'n_samples': X_train_pp.shape[0],
                'n_features': X_train_pp.shape[1],
-               'emissions_prep': emissions_prep,
-               'emissions_train': emissions_train,
-               'emissions_pred': emissions_pred,
+               'enery_prep': emissions_prep,
+               'energy_train': emissions_train,
+               'energy_pred': emissions_pred,
          }
          self.results.append(measures)
 
