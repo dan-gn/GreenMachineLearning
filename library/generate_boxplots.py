@@ -26,7 +26,7 @@ feature_reduction_options = ['False']
 N_EXPERIMENTS = 40
 
 # Inputs
-DATASET = datasets[0]
+DATASET = datasets[2]
 METRIC = 'accuracy'
 
 results = {}
