@@ -1,0 +1,7 @@
+,ResidualNeuralNetwork,MultiLayerNeuralNetwork,GradientBoostingClassifier,RandomForestClassifier,SVC,LogisticRegression,total
+ResidualNeuralNetwork,0.0,1.0,3.0,3.0,3.0,2.0,12.0
+MultiLayerNeuralNetwork,1.0,0.0,2.0,3.0,1.0,1.0,8.0
+GradientBoostingClassifier,3.0,2.0,0.0,1.0,1.0,1.0,8.0
+RandomForestClassifier,3.0,3.0,1.0,0.0,1.0,2.0,10.0
+SVC,3.0,1.0,1.0,1.0,0.0,1.0,7.0
+LogisticRegression,2.0,1.0,1.0,2.0,1.0,0.0,7.0
