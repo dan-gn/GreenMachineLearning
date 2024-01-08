@@ -1,0 +1,7 @@
+,mean
+ResidualNeuralNetwork,1.5508838e-06
+MultiLayerNeuralNetwork,2.4110916e-06
+GradientBoostingClassifier,1.5637403e-06
+RandomForestClassifier,1.0609193e-06
+SVC,3.1502106e-05
+LogisticRegression,1.5645371e-07

@@ -1,0 +1,7 @@
+,ResidualNeuralNetwork,MultiLayerNeuralNetwork,GradientBoostingClassifier,RandomForestClassifier,SVC,LogisticRegression
+ResidualNeuralNetwork,False,False,True,True,True,False
+MultiLayerNeuralNetwork,False,False,True,True,True,False
+GradientBoostingClassifier,True,True,False,False,False,True
+RandomForestClassifier,True,True,False,False,False,True
+SVC,True,True,False,False,False,True
+LogisticRegression,False,False,True,True,True,False
