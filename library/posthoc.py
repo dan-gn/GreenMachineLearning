@@ -11,7 +11,8 @@ def get_data(filename, metric):
 path = 'results_new_linux_results/'
 models = ['ResidualNeuralNetwork', 'MultiLayerNeuralNetwork', 'GradientBoostingClassifier', 'RandomForestClassifier', 'SVC', 'LogisticRegression']
 datasets = ['aids', 'malware', 'students']
-metrics = ['accuracy', 'auc', 'log_loss', 'energy_train', 'energy_pred', 'total_energy']
+# metrics = ['accuracy', 'auc', 'log_loss', 'energy_train', 'energy_pred', 'total_energy']
+metrics = ['f1_score']
 
 # READ RESULTS
 for dataset in datasets:

@@ -1,0 +1,24 @@
+\begin{table*} 
+\caption{} 
+\label{tab:} 
+\centering 
+ 
+\begin{tabular}{p{0.08\linewidth} c c r@{\phantom{X}}l r@{\phantom{X}}l r@{\phantom{X}}l r@{\phantom{X}}l r@{\phantom{X}}l r@{\phantom{X}}l} \hline 
+Dataset & Subsampling & PCA & \multicolumn{2}{c}{A} & \multicolumn{2}{c}{B} & \multicolumn{2}{c}{C} & \multicolumn{2}{c}{D} & \multicolumn{2}{c}{E} & \multicolumn{2}{c}{F} \\  \hline 
+ 
+aids & & & 0.6943 & $\pm$ 0.05 & 0.7329 & $\pm$ 0.04 & 0.7554 & $\pm$ 0.04 & 0.7683 & $\pm$ 0.04 & 0.7008 & $\pm$ 0.04 & 0.6990 & $\pm$ 0.06  \\ 
+aids & \checkmark & & 0.6715 & $\pm$ 0.05 & 0.6634 & $\pm$ 0.06 & 0.6898 & $\pm$ 0.05 & 0.7307 & $\pm$ 0.04 & 0.1180 & $\pm$ 0.15 & 0.5262 & $\pm$ 0.12  \\ 
+aids & & \checkmark & 0.5852 & $\pm$ 0.05 & 0.6359 & $\pm$ 0.06 & 0.6670 & $\pm$ 0.06 & 0.6776 & $\pm$ 0.05 & 0.6948 & $\pm$ 0.05 & 0.6675 & $\pm$ 0.08  \\ 
+aids & \checkmark & \checkmark & 0.5783 & $\pm$ 0.06 & 0.5697 & $\pm$ 0.06 & 0.6342 & $\pm$ 0.05 & 0.6240 & $\pm$ 0.06 & 0.5334 & $\pm$ 0.19 & 0.5406 & $\pm$ 0.17  \\ 
+malware & & & 0.9919 & $\pm$ 0.00 & 0.9903 & $\pm$ 0.00 & 0.9964 & $\pm$ 0.00 & 0.9915 & $\pm$ 0.00 & 0.9905 & $\pm$ 0.00 & 0.9755 & $\pm$ 0.04  \\ 
+malware & \checkmark & & 0.9860 & $\pm$ 0.00 & 0.9867 & $\pm$ 0.00 & 0.9917 & $\pm$ 0.00 & 0.9876 & $\pm$ 0.00 & 0.9768 & $\pm$ 0.01 & 0.9706 & $\pm$ 0.02  \\ 
+malware & & \checkmark & 0.9889 & $\pm$ 0.00 & 0.9958 & $\pm$ 0.00 & 0.9966 & $\pm$ 0.00 & 0.9949 & $\pm$ 0.00 & 0.9913 & $\pm$ 0.00 & 0.9860 & $\pm$ 0.01  \\ 
+malware & \checkmark & \checkmark & 0.9867 & $\pm$ 0.00 & 0.9879 & $\pm$ 0.00 & 0.9890 & $\pm$ 0.00 & 0.9867 & $\pm$ 0.00 & 0.9771 & $\pm$ 0.01 & 0.9768 & $\pm$ 0.01  \\ 
+students & & & 0.9116 & $\pm$ 0.01 & 0.9079 & $\pm$ 0.01 & 0.9121 & $\pm$ 0.01 & 0.9121 & $\pm$ 0.01 & 0.9030 & $\pm$ 0.01 & 0.8959 & $\pm$ 0.02  \\ 
+students & \checkmark & & 0.9058 & $\pm$ 0.01 & 0.8909 & $\pm$ 0.01 & 0.9025 & $\pm$ 0.01 & 0.8989 & $\pm$ 0.01 & 0.8882 & $\pm$ 0.02 & 0.8892 & $\pm$ 0.02  \\ 
+students & & \checkmark & 0.8087 & $\pm$ 0.00 & 0.8084 & $\pm$ 0.00 & 0.7349 & $\pm$ 0.02 & 0.7957 & $\pm$ 0.01 & 0.8087 & $\pm$ 0.00 & 0.8086 & $\pm$ 0.00  \\ 
+students & \checkmark & \checkmark & 0.8086 & $\pm$ 0.00 & 0.8082 & $\pm$ 0.00 & 0.7163 & $\pm$ 0.02 & 0.7815 & $\pm$ 0.01 & 0.8081 & $\pm$ 0.00 & 0.8070 & $\pm$ 0.00  \\ 
+\hline 
+ 
+\end{tabular} 
+\end{table*} 

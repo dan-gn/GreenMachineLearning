@@ -70,7 +70,7 @@ class Experiment:
       self.n_repeats = N_REPEATS
       self.random_state = random_state
       self.subsampling = subsampling
-      self.subsamplig_frac = 0.2
+      self.subsamplig_frac = 0.1
       self.feature_reduction = feature_reduction
       self.results = []
 
